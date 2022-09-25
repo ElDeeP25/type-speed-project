@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)file:///D:/elzero%20project/%D8%A8%D9%88%D8%AC%D9%8A%D9%83%D8%AA/html.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <link rel="stylesheet" href="./html_files/css.css">
+    <link rel="stylesheet" href="file:///D:/elzero%20project/%D8%A8%D9%88%D8%AC%D9%8A%D9%83%D8%AA/js.js">
+</head>
+
+<body>
+
+
+
+    <div class="easygame">
+
+        <div id="address" class="name">Typing Speed Test Game</div>
+        <p class="p">Choose Your Level Now</p>
+
+
+        <div class="display">
+
+
+            <a style="margin-left: 5%;" class="link-one link-container background-one" href="file:///D:/elzero%20project/%D8%A8%D9%88%D8%AC%D9%8A%D9%83%D8%AA/html.html">Easy</a>
+
+
+
+
+
+            <a style="margin-left: 20%;" class="link-two background-two link-container" href="file:///D:/elzero%20project/%D8%A8%D9%88%D8%AC%D9%8A%D9%83%D8%AA/html2.html">Hard</a>
+
+
+
+
+            <a style="margin-left: 20%; margin-right: 5%;" class="link-three background-three link-container" href="file:///D:/elzero%20project/%D8%A8%D9%88%D8%AC%D9%8A%D9%83%D8%AA/html3.html">imposiable</a>
+
+
+
+        </div>
+        <div class="container">
+            <div class="message">
+                You Are Playing On
+                <span class="lvl">Easy</span> Level
+                &amp; You Have <span class="seconds">7</span> Seconds To Type The Word
+            </div>
+            
+            <div class="the-word">Shabana</div>
+            <input id="next" type="text" class="input">
+            <div class="upcoming-words"><div> Eldeep</div><div>El3araby</div><div>3akrab</div><div>Batot</div><div>Alihany</div><div>3eid</div><div>Shibl</div><div>Dar3ama</div><div>7amza</div><div>Hessin</div><div>John</div><div>Bakr</div><div>Abosaied</div><div>Mega</div><div>Eldab3</div><div>Gemy</div><div>Saadelmoder</div><div>Nagy</div><div>Elkholy</div><div>Zezo</div><div>Hagag</div><div>Saeid</div><div>Salah</div><div> Rabas</div></div>
+            <div style="text-align: center;" class="time"> <span style=" animation: color-change 10s infinite;">0</span>  </div>
+            <div class="control">
+
+
+
+             
+                 <div class="score">
+                    Score: <span class="got">0</span> From <span class="total">25</span>
+                </div>
+
+</div>
+               
+            </div>
+            <div class="finish"><span class="bad" style="
+    position: absolute;
+    left: 5.5%;
+    top: 87%;
+">Game Over</span></div>
+        </div>
+    
+    <script>
+      
+    
+     
+        const words = [
+            " Eldeep",
+            "El3araby",
+            "3akrab",
+            "Batot",
+            "Alihany",
+            "3eid",
+            "Shibl",
+            "Dar3ama",
+            "Shabana",
+            "7amza",
+            "Hessin",
+            "John",
+            "Bakr",
+            "Abosaied",
+            "Mega",
+            "Eldab3",
+            "Gemy",
+            "Saadelmoder",
+            "Nagy",
+            "Elkholy",
+            "Zezo",
+            "Hagag",
+            "Saeid",
+            "Salah",
+            " Rabas"
+        ];
+
+       
+        const lvls = {
+            "Easy": 7,
+
+            "Hard": 5,
+
+            "imposiable": 3
+        };
+
+       
+        let defaultLevelName = "Easy"; 
+        let defaultLevelSeconds = lvls[defaultLevelName];
+
+       
+        let startButton = document.querySelector(".start");
+        let lvlNameSpan = document.querySelector(".message .lvl");
+        let secondsSpan = document.querySelector(".message .seconds");
+        let theWord = document.querySelector(".the-word");
+        let upcomingWords = document.querySelector(".upcoming-words");
+        let input = document.querySelector(".input");
+        let timeLeftSpan = document.querySelector(".time span");
+        let scoreGot = document.querySelector(".score .got");
+        let scoreTotal = document.querySelector(".score .total");
+        let finishMessage = document.querySelector(".finish");
+
+        
+        lvlNameSpan.innerHTML = defaultLevelName;
+        secondsSpan.innerHTML = defaultLevelSeconds;
+        timeLeftSpan.innerHTML = defaultLevelSeconds;
+        scoreTotal.innerHTML = words.length;
+
+       
+        input.onpaste = function () {
+            return false;
+        }
+
+        
+        startButton.onclick = function () {
+            this.remove();
+            input.focus();
+            
+            genWords();
+        }
+
+        function genWords() {
+           
+            let randomWord = words[Math.floor(Math.random() * words.length)];
+           
+            let wordIndex = words.indexOf(randomWord);
+           
+            words.splice(wordIndex, 1);
+          
+            theWord.innerHTML = randomWord;
+          
+            upcomingWords.innerHTML = '';
+          
+            for (let i = 0; i < words.length; i++) {
+              
+                let div = document.createElement("div");
+                let txt = document.createTextNode(words[i]);
+                div.appendChild(txt);
+                upcomingWords.appendChild(div);
+            }
+          
+            startPlay();
+        }
+
+        function startPlay() {
+            timeLeftSpan.innerHTML = defaultLevelSeconds;
+            let start = setInterval(() => {
+                timeLeftSpan.innerHTML--;
+                if (timeLeftSpan.innerHTML === "0") {
+                    
+                    clearInterval(start);
+                   
+                    if (theWord.innerHTML.toLowerCase() === input.value.toLowerCase()) {
+                      
+                        input.value = '';
+                     
+                        scoreGot.innerHTML++;
+                        if (words.length > 0) {
+                        
+                            genWords();
+                        } else {
+                            let span = document.createElement("span");
+                            span.className = 'good';
+                            let spanText = document.createTextNode("Congratz");
+                            span.appendChild(spanText);
+                            finishMessage.appendChild(span);
+                          
+                            upcomingWords.remove();
+                        }
+                    } else {
+                        let span = document.createElement("span");
+                        span.className = 'bad';
+                        let spanText = document.createTextNode("Game Over");
+                        span.appendChild(spanText);
+                        finishMessage.appendChild(span);
+                    }
+                }
+            }, 1000);
+
+        }
+        
+    </script>
+
+
+</body></html>
